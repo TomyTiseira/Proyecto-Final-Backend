@@ -1,4 +1,3 @@
-import { connectToDb } from "../config/connectToDb.js";
 import containerMongoDb from "../controllers/containerMongoDb.js";
 
 class MongoDAO {
@@ -66,14 +65,6 @@ class MongoDAO {
     }
   };
 
-  updateCart = async (id, cartToUpdate) => {
-    try {
-      await containerMongoDb.updateCart(id, cartToUpdate);
-    } catch (e) {
-      console.log(e.message);
-    }
-  };
-
   deleteCart = async (id) => {
     try {
       await containerMongoDb.deleteCart(id);
@@ -99,6 +90,4 @@ class MongoDAO {
   };
 }
 
-const mongoDAO = new MongoDAO();
-
-export default mongoDAO;
+export default MongoDAO;

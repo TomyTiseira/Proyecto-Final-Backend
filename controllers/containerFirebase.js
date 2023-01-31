@@ -1,16 +1,17 @@
 import admin from "firebase-admin";
+import { collectionCarts, collectionProducts } from "../config/constans.js";
 
 class ContainerFirebase {
   saveProduct = async (productToAdd) => {
     const db = admin.firestore();
-    const query = db.collection("products");
+    const query = db.collection(collectionProducts);
 
     await query.doc(productToAdd.id.toString()).set(productToAdd);
   };
 
   getProducts = async () => {
     const db = admin.firestore();
-    const query = db.collection("products");
+    const query = db.collection(collectionProducts);
 
     const querySnapshot = await query.get();
 
@@ -35,14 +36,14 @@ class ContainerFirebase {
 
   updateProduct = async (id, productToUpdate) => {
     const db = admin.firestore();
-    const query = db.collection("products");
+    const query = db.collection(collectionProducts);
 
     await query.doc(id).set({ ...productToUpdate }, { merge: true });
   };
 
   deleteProduct = async (id) => {
     const db = admin.firestore();
-    const query = db.collection("products");
+    const query = db.collection(collectionProducts);
 
     await query.doc(id).delete();
   };
@@ -50,14 +51,14 @@ class ContainerFirebase {
   saveCart = async (cartToAdd) => {
     const db = admin.firestore();
 
-    const query = db.collection("carts");
+    const query = db.collection(collectionCarts);
 
     await query.doc(cartToAdd.id.toString()).set(cartToAdd);
   };
 
   getCarts = async () => {
     const db = admin.firestore();
-    const query = db.collection("carts");
+    const query = db.collection(collectionCarts);
 
     const querySnapshot = await query.get();
 
@@ -79,20 +80,13 @@ class ContainerFirebase {
   getCartById = async (id) => {
     const carts = await this.getCarts();
 
-    const cart = carts.find((cart) => cart.id === parseInt(id));
+    const cart = carts.find((cart) => cart.id === id);
     return cart;
-  };
-
-  updateCart = async (id, cartToUpdate) => {
-    const db = admin.firestore();
-    const query = db.collection("carts");
-
-    await query.doc(id).set({ ...cartToUpdate }, { merge: true });
   };
 
   deleteCart = async (id) => {
     const db = admin.firestore();
-    const query = db.collection("carts");
+    const query = db.collection(collectionCarts);
 
     await query.doc(id).delete();
   };
@@ -101,7 +95,7 @@ class ContainerFirebase {
     const cart = await this.getCartById(id);
 
     const db = admin.firestore();
-    const query = db.collection("carts");
+    const query = db.collection(collectionCarts);
 
     const isInCart = () =>
       cart.products.find((product) => product.id === id_prod) ? true : false;
@@ -127,7 +121,7 @@ class ContainerFirebase {
     const cart = await this.getCartById(id);
 
     const db = admin.firestore();
-    const query = db.collection("carts");
+    const query = db.collection(collectionCarts);
 
     const productsUpdate = cart.products.filter(
       (product) => product.id !== id_prod

@@ -29,10 +29,6 @@ class ContainerMongoDb {
 
   getCartById = async (id) => await Cart.findOne({ _id: id });
 
-  updateCart = async (id, cartToUpdate) => {
-    await Cart.updateOne({ _id: id }, { $set: { ...cartToUpdate } });
-  };
-
   deleteCart = async (id) => await Cart.deleteOne({ _id: id });
 
   addProductInCart = async (id, id_prod) => {

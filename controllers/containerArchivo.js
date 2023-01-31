@@ -11,7 +11,7 @@ class ContainerArchivo {
     try {
       return fs.promises
         .readFile(this.fileProduct, "utf-8")
-        .then((value) => JSON.parse(value))
+        .then((value) => value)
         .catch((e) => console.error(e));
     } catch (e) {
       console.log(e.message);

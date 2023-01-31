@@ -1,18 +1,16 @@
-import { connectToFirebase } from "../config/connectToDb.js";
 import containerFirebase from "../controllers/containerFirebase.js";
 
 class FirebaseDAO {
-  constructor(connectToDb) {
-    connectToDb();
-  }
-
   saveProduct = async (productToAdd) => {
     try {
       const products = await this.getProducts();
 
       const id = products ? products.length : 0;
 
-      await containerFirebase.saveProduct({ ...productToAdd, id });
+      await containerFirebase.saveProduct({
+        ...productToAdd,
+        id: id.toString(),
+      });
     } catch (e) {
       console.log(e.message);
     }
@@ -20,7 +18,7 @@ class FirebaseDAO {
 
   getProducts = async () => {
     try {
-      const products = await containerFirebase.getProducts();
+      const products = (await containerFirebase.getProducts()) || [];
 
       return products;
     } catch (e) {
@@ -32,7 +30,7 @@ class FirebaseDAO {
     try {
       const products = await containerFirebase.getProducts();
 
-      const product = products.find((product) => product.id === parseInt(id));
+      const product = products.find((product) => product.id === id);
       return product;
     } catch (e) {
       console.log(e.message);
@@ -41,7 +39,7 @@ class FirebaseDAO {
 
   updateProduct = async (id, productToUpdate) => {
     try {
-      const product = await this.getProductById(parseInt(id));
+      const product = await this.getProductById(id);
 
       if (!product) return;
 
@@ -53,7 +51,7 @@ class FirebaseDAO {
 
   deleteProduct = async (id) => {
     try {
-      const product = await this.getProductById(parseInt(id));
+      const product = await this.getProductById(id);
 
       if (!product) return;
 
@@ -65,10 +63,11 @@ class FirebaseDAO {
 
   saveCart = async (cartToAdd) => {
     try {
-      const products = await this.getCarts();
+      const carts = await this.getCarts();
 
-      const id = products ? products.length : 0;
-      await containerFirebase.saveCart({ ...cartToAdd, id });
+      const id = carts ? carts.length : 0;
+      console.log({ ...cartToAdd, id: id.toString() });
+      await containerFirebase.saveCart({ ...cartToAdd, id: id.toString() });
     } catch (e) {
       console.log(e.message);
     }
@@ -84,7 +83,7 @@ class FirebaseDAO {
 
   getCartById = async (id) => {
     try {
-      return await containerFirebase.getCartById(parseInt(id));
+      return await containerFirebase.getCartById(id);
     } catch (e) {
       console.log(e.message);
     }
@@ -100,7 +99,7 @@ class FirebaseDAO {
 
   addProductInCart = async (id, id_prod) => {
     try {
-      await containerFirebase.addProductInCart(id, parseInt(id_prod));
+      await containerFirebase.addProductInCart(id, id_prod);
     } catch (e) {
       console.log(e.message);
     }
@@ -108,13 +107,11 @@ class FirebaseDAO {
 
   deleteProductInCart = async (id, id_prod) => {
     try {
-      await containerFirebase.deleteProductInCart(id, parseInt(id_prod));
+      await containerFirebase.deleteProductInCart(id, id_prod);
     } catch (e) {
       console.log(e.message);
     }
   };
 }
 
-const firebaseDAO = new FirebaseDAO(connectToFirebase);
-
-export default firebaseDAO;
+export default FirebaseDAO;

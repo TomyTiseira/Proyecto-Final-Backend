@@ -8,8 +8,9 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 const PORT = 8080;
+const db = "mongo";
 
 app.use("/api/productos", productRouter);
 app.use("/api/carrito", cartRouter);
 
-connectToDb().then(() => app.listen(PORT));
+connectToDb(db).then(() => app.listen(PORT));

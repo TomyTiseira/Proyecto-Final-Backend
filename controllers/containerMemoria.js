@@ -9,13 +9,13 @@ class ContainerMemoria {
   saveProduct = (productToAdd) => {
     const id = this.products.length ? this.products.length : 0;
 
-    this.products.push({ ...productToAdd, id });
+    this.products.push({ ...productToAdd, id: id.toString() });
   };
 
   getProductById = (id) => this.products.find((product) => product.id === id);
 
   updateProduct = (id, productToUpdate) => {
-    this.products[id] = { ...productToUpdate, id };
+    this.products[parseInt(id)] = { ...productToUpdate, id };
   };
 
   deleteProduct = (id) => {
@@ -29,11 +29,7 @@ class ContainerMemoria {
   saveCart = (cartToAdd) => {
     const id = this.carts.length ? this.carts.length : 0;
 
-    this.carts.push({ ...cartToAdd, id });
-  };
-
-  updateCart = (id, cartToUpdate) => {
-    this.carts[id] = { ...cartToUpdate, id };
+    this.carts.push({ ...cartToAdd, id: id.toString() });
   };
 
   deleteCart = (id) => {
