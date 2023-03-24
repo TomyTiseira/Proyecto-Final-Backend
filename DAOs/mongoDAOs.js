@@ -88,6 +88,22 @@ class MongoDAO {
       console.log(e.message);
     }
   };
+
+  getUser = async (email) => {
+    try {
+      return await containerMongoDb.getUser(email);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
+
+  addUser = async (userToAdd) => {
+    try {
+      await containerMongoDb.addUser(userToAdd);
+    } catch (e) {
+      console.log(e.message);
+    }
+  };
 }
 
 export default MongoDAO;

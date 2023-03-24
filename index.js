@@ -1,16 +1,34 @@
+import MongoStore from "connect-mongo";
 import express from "express";
-import { connectToDb } from "./config/connectToDb.js";
+import session from "express-session";
+import { databaseUrl, port, secret } from "./config/enviroment.js";
 import cartRouter from "./routes/carts.router.js";
+import loginRouter from "./routes/login.router.js";
 import productRouter from "./routes/products.router.js";
+import signupRouter from "./routes/signup.router.js";
 
 const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
-const PORT = 8080;
-const db = "mongo";
+app.use(
+  session({
+    store: MongoStore.create({
+      mongoUrl: databaseUrl,
+      collectionName: "sessions",
+    }),
+    secret: secret,
+    resave: true,
+    saveUninitialized: true,
+    cookie: {
+      maxAge: 600000,
+    },
+  })
+);
 
 app.use("/api/productos", productRouter);
 app.use("/api/carrito", cartRouter);
+app.use("/login", loginRouter);
+app.use("/signup", signupRouter);
 
-connectToDb(db).then(() => app.listen(PORT));
+app.listen(port);

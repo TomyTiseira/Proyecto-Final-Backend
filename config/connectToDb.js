@@ -5,14 +5,16 @@ import MongoDAO from "../DAOs/mongoDAOs.js";
 import FirebaseDAO from "../DAOs/firebaseDAOs.js";
 import ArchivoDAO from "../DAOs/archivoDAOs.js";
 import MemoriaDAO from "../DAOs/memoriaDAOs.js";
+import { databaseUrl, databaseUrlFirebase } from "./enviroment.js";
 
 let isConnected;
 let dbDAO;
+const db = "mongo";
 
 const connectToFirebase = () => {
   admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
-    databaseURL: "https://coff-fe-default-rtdb.firebaseio.com",
+    databaseURL: databaseUrlFirebase,
   });
 };
 
@@ -21,7 +23,7 @@ const connectToDb = async (db) => {
     try {
       switch (db) {
         case "mongo":
-          await mongoose.connect("mongodb://127.0.0.1:27017/Coff-fe");
+          await mongoose.connect(databaseUrl);
           dbDAO = new MongoDAO();
           break;
         case "firebase":
@@ -46,4 +48,6 @@ const connectToDb = async (db) => {
   return;
 };
 
-export { connectToDb, dbDAO };
+connectToDb(db);
+
+export { dbDAO };

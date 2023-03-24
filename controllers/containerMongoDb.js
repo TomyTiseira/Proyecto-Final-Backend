@@ -1,5 +1,6 @@
 import Product from "../model/products.js";
 import Cart from "../model/carts.js";
+import User from "../model/users.js";
 
 class ContainerMongoDb {
   saveProduct = async (productToAdd) => {
@@ -72,6 +73,13 @@ class ContainerMongoDb {
       { _id: id_cart },
       { $set: { products: [...productsUpdate] } }
     );
+  };
+
+  getUser = async (email) => await User.findOne({ email: email });
+
+  addUser = async (userToAdd) => {
+    const user = new User(userToAdd);
+    await user.save();
   };
 }
 
