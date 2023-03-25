@@ -1,5 +1,5 @@
 import admin from "firebase-admin";
-import { collectionCarts, collectionProducts } from "../config/constans.js";
+import { collectionCarts, collectionProducts } from "../config/enviroment.js";
 
 class ContainerFirebase {
   saveProduct = async (productToAdd) => {

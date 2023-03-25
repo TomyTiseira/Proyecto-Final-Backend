@@ -1,6 +1,6 @@
 import { Router } from "express";
 import Product from "../Class/Product.js";
-import { administrator } from "../config/constans.js";
+import { administrator } from "../config/enviroment.js";
 import { dbDAO } from "../config/connectToDb.js";
 
 const productRouter = Router();

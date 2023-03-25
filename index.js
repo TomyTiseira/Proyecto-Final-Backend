@@ -4,6 +4,7 @@ import session from "express-session";
 import { databaseUrl, port, secret } from "./config/enviroment.js";
 import cartRouter from "./routes/carts.router.js";
 import loginRouter from "./routes/login.router.js";
+import logoutRouter from "./routes/logout.router.js";
 import productRouter from "./routes/products.router.js";
 import signupRouter from "./routes/signup.router.js";
 
@@ -30,5 +31,6 @@ app.use("/api/productos", productRouter);
 app.use("/api/carrito", cartRouter);
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
+app.use("/logout", logoutRouter);
 
 app.listen(port);
