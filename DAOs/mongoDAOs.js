@@ -1,3 +1,4 @@
+import { logger } from "../config/logs.js";
 import containerMongoDb from "../controllers/containerMongoDb.js";
 
 class MongoDAO {
@@ -5,7 +6,7 @@ class MongoDAO {
     try {
       await containerMongoDb.saveProduct(productToAdd);
     } catch (e) {
-      console.log(e.message);
+      logger.error(`Fallo al agregar un producto.`);
     }
   };
 
@@ -13,7 +14,7 @@ class MongoDAO {
     try {
       return await containerMongoDb.getProducts();
     } catch (e) {
-      console.log(e.message);
+      logger.error(`Fallo al obtener los productos.`);
     }
   };
 
@@ -21,7 +22,7 @@ class MongoDAO {
     try {
       return await containerMongoDb.getProductById(id);
     } catch (e) {
-      console.log(e.message);
+      logger.error(`Fallo al agregar un producto según si id. Id: ${id}.`);
     }
   };
 
@@ -29,7 +30,9 @@ class MongoDAO {
     try {
       await containerMongoDb.updateProduct(id, productToUpdate);
     } catch (e) {
-      console.log(e.message);
+      logger.error(
+        `Fallo al actualizar un producto según si id. Id: ${id}, producto actualizado: ${productToUpdate}.`
+      );
     }
   };
 
@@ -37,15 +40,15 @@ class MongoDAO {
     try {
       await containerMongoDb.deleteProduct(id);
     } catch (e) {
-      console.log(e.message);
+      logger.error(`Fallo al eliminar un producto según su id. Id: ${id}.`);
     }
   };
 
   saveCart = async (cartToAdd) => {
     try {
-      await containerMongoDb.saveCart(cartToAdd);
+      return await containerMongoDb.saveCart(cartToAdd);
     } catch (e) {
-      console.log(e.message);
+      logger.error(`Fallo al agregar un carrito.`);
     }
   };
 
@@ -53,7 +56,7 @@ class MongoDAO {
     try {
       return await containerMongoDb.getCarts();
     } catch (e) {
-      console.log(e.message);
+      logger.error(`Fallo al obtener los carritos.`);
     }
   };
 
@@ -61,7 +64,7 @@ class MongoDAO {
     try {
       return await containerMongoDb.getCartById(id);
     } catch (e) {
-      console.log(e.message);
+      logger.error(`Fallo al obtener un carrito según su id. Id: ${id}.`);
     }
   };
 
@@ -69,7 +72,7 @@ class MongoDAO {
     try {
       await containerMongoDb.deleteCart(id);
     } catch (e) {
-      console.log(e.message);
+      logger.error(`Fallo al eliminar un carrito según su id. Id: ${id}.`);
     }
   };
 
@@ -77,7 +80,9 @@ class MongoDAO {
     try {
       await containerMongoDb.addProductInCart(id, id_prod);
     } catch (e) {
-      console.log(e.message);
+      logger.error(
+        `Fallo al agregar un producto al carrito. Id del carrito: ${id}, id del producto: ${id_prod}.`
+      );
     }
   };
 
@@ -85,7 +90,9 @@ class MongoDAO {
     try {
       await containerMongoDb.deleteProductInCart(id, id_prod);
     } catch (e) {
-      console.log(e.message);
+      logger.error(
+        `Fallo al eliminar un producto del carrito. Id del carrito: ${id}. Id del producto: ${id_prod}`
+      );
     }
   };
 
@@ -93,7 +100,9 @@ class MongoDAO {
     try {
       return await containerMongoDb.getUser(email);
     } catch (e) {
-      console.log(e.message);
+      logger.error(
+        `Fallo al obtener un usuario según su email. Email: ${email}`
+      );
     }
   };
 
@@ -101,7 +110,7 @@ class MongoDAO {
     try {
       await containerMongoDb.addUser(userToAdd);
     } catch (e) {
-      console.log(e.message);
+      logger.error(`Fallo al agregar un usuario.`);
     }
   };
 }

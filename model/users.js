@@ -10,6 +10,7 @@ const usersSchema = new Schema({
   edad: { type: Number, require: true },
   numero: { type: Number, require: true },
   foto: { type: String, require: true },
+  cartId: { type: Schema.Types.ObjectId, require: true },
 });
 
 const User = model("User", usersSchema);

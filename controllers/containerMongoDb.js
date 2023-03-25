@@ -23,7 +23,7 @@ class ContainerMongoDb {
 
   saveCart = async (cartToAdd) => {
     const cart = new Cart(cartToAdd);
-    await cart.save();
+    return await cart.save();
   };
 
   getCarts = async () => await Cart.find({});

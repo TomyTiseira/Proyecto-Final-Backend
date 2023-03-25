@@ -2,6 +2,7 @@ import MongoStore from "connect-mongo";
 import express from "express";
 import session from "express-session";
 import { databaseUrl, port, secret } from "./config/enviroment.js";
+import { logger } from "./config/logs.js";
 import cartRouter from "./routes/carts.router.js";
 import loginRouter from "./routes/login.router.js";
 import logoutRouter from "./routes/logout.router.js";
@@ -32,5 +33,12 @@ app.use("/api/carrito", cartRouter);
 app.use("/login", loginRouter);
 app.use("/signup", signupRouter);
 app.use("/logout", logoutRouter);
+
+app.get("*", (req, res) => {
+  const { url, method } = req;
+
+  logger.warn(`Ruta ${url} y método ${method} no implementada`);
+  res.send(`Ruta ${url} y método ${method} no implementada`);
+});
 
 app.listen(port);
