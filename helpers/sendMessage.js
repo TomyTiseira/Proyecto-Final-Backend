@@ -11,7 +11,6 @@ export const sendMessage = async (to, body, sendToWhatsapp) => {
     const from = sendToWhatsapp ? numberWhatsapp : numberTwilio;
     const sendTo = sendToWhatsapp ? `whatsapp:${to}` : `+${to}`;
 
-    console.log({ from, sendTo });
     const client = twilio(accountSid, authToken);
     const message = await client.messages.create({
       body,
