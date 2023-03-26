@@ -29,7 +29,6 @@ export const sendEmail = async (to, body, subject, html) => {
       messageId: info.messageId,
     };
   } catch (e) {
-    console.log(e.message);
     return {
       result: "error",
       message: e.message,

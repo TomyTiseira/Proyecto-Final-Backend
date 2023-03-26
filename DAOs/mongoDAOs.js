@@ -91,7 +91,7 @@ class MongoDAO {
       await containerMongoDb.deleteProductInCart(id, id_prod);
     } catch (e) {
       logger.error(
-        `Fallo al eliminar un producto del carrito. Id del carrito: ${id}. Id del producto: ${id_prod}`
+        `Fallo al eliminar un producto del carrito. Id del carrito: ${id}. Id del producto: ${id_prod}.`
       );
     }
   };
@@ -101,7 +101,7 @@ class MongoDAO {
       return await containerMongoDb.getUser(email);
     } catch (e) {
       logger.error(
-        `Fallo al obtener un usuario según su email. Email: ${email}`
+        `Fallo al obtener un usuario según su email. Email: ${email}.`
       );
     }
   };

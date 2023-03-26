@@ -41,7 +41,7 @@ cartRouter.delete("/:id", async (req, res) => {
         `El método y la ruta son: ${method} ${url}. Carrito no encontrado.`
       );
 
-      res.status(404).json({ error: "Carrito no encontrado" });
+      res.status(404).json({ error: "Carrito no encontrado." });
       return;
     }
 
@@ -72,7 +72,7 @@ cartRouter.get("/:id/productos", async (req, res) => {
         `El método y la ruta son: ${method} ${url}. Carrito no encontrado.`
       );
 
-      res.status(404).json({ error: "Carrito no encontrado" });
+      res.status(404).json({ error: "Carrito no encontrado." });
       return;
     }
 
@@ -101,7 +101,7 @@ cartRouter.post("/:id/productos/:id_prod", async (req, res) => {
       logger.error(
         `El método y la ruta son: ${method} ${url}. Carrito o producto no encontrado.`
       );
-      res.status(404).json({ error: "Carrito o producto no encontrado" });
+      res.status(404).json({ error: "Carrito o producto no encontrado." });
       return;
     }
 
@@ -132,7 +132,7 @@ cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
       logger.error(
         `El método y la ruta son: ${method} ${url}. Carrito o producto no encontrado.`
       );
-      res.status(404).json({ error: "Carrito o producto no encontrado" });
+      res.status(404).json({ error: "Carrito o producto no encontrado." });
       return;
     }
 
@@ -147,7 +147,7 @@ cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
 
       res
         .status(404)
-        .json({ error: "Producto no se encuentra dentro del carrito" });
+        .json({ error: "Producto no se encuentra dentro del carrito." });
       return;
     }
 

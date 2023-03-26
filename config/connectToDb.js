@@ -6,6 +6,7 @@ import FirebaseDAO from "../DAOs/firebaseDAOs.js";
 import ArchivoDAO from "../DAOs/archivoDAOs.js";
 import MemoriaDAO from "../DAOs/memoriaDAOs.js";
 import { databaseUrl, databaseUrlFirebase } from "./enviroment.js";
+import { logger } from "./logs.js";
 
 let isConnected;
 let dbDAO;
@@ -41,7 +42,9 @@ const connectToDb = async (db) => {
       isConnected = true;
       return;
     } catch (e) {
-      console.log(e.message);
+      logger.error(
+        `A ocurrido un error inesperado en la inicialización de la Base de Datos.`
+      );
     }
   }
 

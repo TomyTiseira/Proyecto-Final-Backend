@@ -43,7 +43,7 @@ productRouter.post("/", async (req, res) => {
 
     res.status(403).json({
       error: -1,
-      description: `ruta ${url} método ${method} no autorizado`,
+      description: `ruta ${url} método ${method} no autorizado.`,
     });
     return;
   }
@@ -75,7 +75,7 @@ productRouter.put("/:id", async (req, res) => {
 
     res.status(403).json({
       error: -1,
-      description: `ruta ${url} método ${method} no autorizado`,
+      description: `ruta ${url} método ${method} no autorizado.`,
     });
     return;
   }
@@ -88,7 +88,7 @@ productRouter.put("/:id", async (req, res) => {
     logger.error(
       `El método y la ruta son: ${method} ${url}. Producto no encontrado.`
     );
-    res.status(404).json({ error: "Producto no encontrado" });
+    res.status(404).json({ error: "Producto no encontrado." });
     return;
   }
 
@@ -132,7 +132,7 @@ productRouter.delete("/:id", async (req, res) => {
       `El método y la ruta son: ${method} ${url}. Producto no encontrado.`
     );
 
-    res.status(404).json({ error: "Producto no encontrado" });
+    res.status(404).json({ error: "Producto no encontrado." });
     return;
   }
 

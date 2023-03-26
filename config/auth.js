@@ -1,7 +1,9 @@
-import { hashSync, compareSync } from "bcrypt";
+import { compareSync } from "bcrypt";
 import passport from "passport";
 import { Strategy as LocalStrategy } from "passport-local";
-import { dbDAO } from "./connectToDb";
+import { dbDAO } from "./connectToDb.js";
+import User from "../model/users.js";
+import { logger } from "./logs.js";
 
 passport.serializeUser((user, done) => {
   done(null, user.email);
@@ -14,45 +16,23 @@ passport.deserializeUser(async (email, done) => {
 
 passport.use(
   "login",
-  new LocalStrategy(async (email, password, done) => {
-    const user = await dbDAO.getUser(email);
-
-    const validUser = compareSync(password, user.password);
-
-    if (validUser) {
-      done(null, user);
-      return;
-    }
-
-    done(null, false);
-  })
-);
-
-passport.use(
-  "signup",
-  new LocalStrategy(async (email, password, done) => {
-    const existendUser = await dbDAO.getUser(email);
-
-    if (existendUser) {
-      return done(new Error("User alredy exists"));
-    }
-
-    dbDAO.AddUser({ username, password: hashSync(password, 10) });
-  })
-);
-
-passport.use(
-  new LocalStrategy(function (username, password, done) {
-    User.findOne({ username: username }, function (err, user) {
+  new LocalStrategy({ usernameField: "email" }, (email, password, done) => {
+    User.findOne({ email: email }, (err, user) => {
       if (err) {
+        logger.error(
+          `A ocurrido un error inesperado en el logeo. ${err.message}.`
+        );
         return done(err);
       }
       if (!user) {
+        logger.error(`A ocurrido un error en el logeo. Usuario no encontrado.`);
+        return done(null, false, { message: "Unknown user " + email });
+      }
+      if (!compareSync(password, user.password)) {
+        logger.error(`A ocurrido un error en el logeo. Datos inválidos.`);
         return done(null, false);
       }
-      if (!user.verifyPassword(password)) {
-        return done(null, false);
-      }
+
       return done(null, user);
     });
   })

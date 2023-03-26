@@ -4,10 +4,11 @@ import { dbDAO } from "../config/connectToDb.js";
 import { sendEmail } from "../helpers/sendEmail.js";
 import { logger } from "../config/logs.js";
 import Cart from "../Class/Cart.js";
+import passport from "passport";
 
 const signupRouter = Router();
 
-signupRouter.post("/", async (req, res) => {
+signupRouter.post("/", passport.authenticate("signup"), async (req, res) => {
   const { url, method } = req;
   const { email, password, nombre, direccion, edad, numero, foto } = req.body;
   const user = await dbDAO.getUser(email);
@@ -59,7 +60,7 @@ signupRouter.post("/", async (req, res) => {
   req.session.email = email;
 
   logger.info(
-    `El método y la ruta son: ${method} ${url}. ${req.session.email}`
+    `El método y la ruta son: ${method} ${url}. ${req.session.email}.`
   );
 
   res.redirect("/");
