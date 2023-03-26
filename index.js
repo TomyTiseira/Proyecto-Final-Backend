@@ -1,13 +1,15 @@
 import MongoStore from "connect-mongo";
 import express from "express";
 import session from "express-session";
-import { databaseUrl, port, secret } from "./config/enviroment.js";
+import { databaseUrl, modo, port, secret } from "./config/enviroment.js";
 import { logger } from "./config/logs.js";
 import cartRouter from "./routes/carts.router.js";
 import loginRouter from "./routes/login.router.js";
 import logoutRouter from "./routes/logout.router.js";
 import productRouter from "./routes/products.router.js";
 import signupRouter from "./routes/signup.router.js";
+import cluster from "cluster";
+import { cpus } from "os";
 
 const app = express();
 app.use(express.json());
@@ -28,17 +30,27 @@ app.use(
   })
 );
 
-app.use("/api/productos", productRouter);
-app.use("/api/carrito", cartRouter);
-app.use("/login", loginRouter);
-app.use("/signup", signupRouter);
-app.use("/logout", logoutRouter);
+if (cluster.isPrimary && modo === "cluster") {
+  for (let i = 0; i < cpus().length; i++) {
+    cluster.fork();
+  }
 
-app.get("*", (req, res) => {
-  const { url, method } = req;
+  cluster.on("exit", (worker, code, signal) => {
+    cluster.fork();
+  });
+} else {
+  app.use("/api/productos", productRouter);
+  app.use("/api/carrito", cartRouter);
+  app.use("/login", loginRouter);
+  app.use("/signup", signupRouter);
+  app.use("/logout", logoutRouter);
 
-  logger.warn(`Ruta ${url} y método ${method} no implementada`);
-  res.send(`Ruta ${url} y método ${method} no implementada`);
-});
+  app.get("*", (req, res) => {
+    const { url, method } = req;
 
-app.listen(port);
+    logger.warn(`Ruta ${url} y método ${method} no implementada`);
+    res.send(`Ruta ${url} y método ${method} no implementada`);
+  });
+
+  app.listen(port);
+}

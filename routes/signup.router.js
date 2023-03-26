@@ -8,7 +8,7 @@ import passport from "passport";
 
 const signupRouter = Router();
 
-signupRouter.post("/", passport.authenticate("signup"), async (req, res) => {
+signupRouter.post("/", async (req, res) => {
   const { url, method } = req;
   const { email, password, nombre, direccion, edad, numero, foto } = req.body;
   const user = await dbDAO.getUser(email);

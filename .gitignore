@@ -1,5 +1,4 @@
 /node_modules
 /config/credentials.json
 .env
-error.log
-warn.log
+/logs

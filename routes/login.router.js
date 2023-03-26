@@ -9,25 +9,7 @@ const loginRouter = Router();
 
 loginRouter.post("/", passport.authenticate("login"), async (req, res) => {
   const { url, method } = req;
-  const { email, password } = req.body;
-  const user = await dbDAO.getUser(email);
-
-  // if (!user) {
-  // logger.error(
-  //   `El método y la ruta son: ${method} ${url}. Usuario no encontrado.`
-  // );
-  //   res.status(403).send("Usuario no encontrado");
-  //   return;
-  // }
-
-  // const validUser = compareSync(password, user.password);
-
-  // if (!validUser) {
-  // logger.error(`El método y la ruta son: ${method} ${url}. Datos inválidos.`);
-
-  //   res.status(403).send("Datos inválidos");
-  //   return;
-  // }
+  const { email } = req.body;
 
   req.session.email = email;
 

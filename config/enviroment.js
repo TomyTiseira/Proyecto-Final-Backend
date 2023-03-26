@@ -24,3 +24,5 @@ export const authToken = process.env.AUTH_TOKEN;
 export const numberTwilio = process.env.NUMBER_TWILIO;
 export const numberWhatsapp = process.env.NUMBER_WHATSAPP;
 export const numberAdministrator = process.env.NUMBER_ADMINISTRATOR;
+
+export const modo = process.env.MODO;

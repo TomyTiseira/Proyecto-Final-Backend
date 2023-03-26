@@ -8,8 +8,11 @@ const buildLogger = () => {
     ),
     transports: [
       new winston.transports.Console({ level: "info" }),
-      new winston.transports.File({ filename: "warn.log", level: "warn" }),
-      new winston.transports.File({ filename: "error.log", level: "error" }),
+      new winston.transports.File({ filename: "logs/warn.log", level: "warn" }),
+      new winston.transports.File({
+        filename: "logs/error.log",
+        level: "error",
+      }),
     ],
   });
 
