@@ -1,17 +1,48 @@
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
-// import { useCartContext } from "../context/CartContext";
+import { useLoginContext } from "../context/LoginContext";
 import ItemCount from "./ItemCount";
 
 export const ItemDetail = ({ data }) => {
+	const { loginEmail } = useLoginContext();
 	const [goToCart, setGoToCart] = useState(false);
-	// const { addProduct } = useCartContext();
 
 	// Añadir producto y setear el goToCart para que no vaya instantaneamente al carrito sino que muestre un mensaje antes.
-	const onAdd = (quantity) => {
+	const onAdd = async (quantity) => {
 		setGoToCart(true);
-		// addProduct(data, quantity);
+
+		const cartId = await fetch("/user/cartId")
+			.then(response => response.json())
+			.then(data => data)
+
+		if(cartId.result === "error") {
+			loginEmail(null);
+			setGoToCart("error");
+		} else {
+
+			const requestOptions = {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({...data, quantity})
+			};
+	
+			await fetch(`/api/carrito/${cartId}/productos/${data._id}`, requestOptions)
+				.then((response) => response.json())
+				.then((data) => data)
+				.catch((e) => console.error(e.message));
+	
+				setGoToCart(true);
+		}
 	};
+
+	if(goToCart === "error") {
+		return(
+			<div className="text-center">
+				<h2 className='fs-5 py-2 col text-white text-center'>Error 403! Iniciar sesión para continuar</h2>
+				<Link to="/login"><button className='boton-a'>Login</button></Link>
+			</div>
+		);
+	}
 
 	return (
 		<div className="box-grid text-center bg">
@@ -21,7 +52,7 @@ export const ItemDetail = ({ data }) => {
 			{goToCart ? (
 				<Link to="/cart" className="text-white fs-4">Ir al carrito</Link>
 			) : (
-				<ItemCount initial={1} stock={5} onAdd={onAdd}/>
+				<ItemCount initial={1} stock={data.stock} onAdd={onAdd}/>
 			)}
 		</div>
 	);

@@ -13,8 +13,6 @@ const ItemDetailContainer = () => {
       .then(data => setProduct(data))
   }, [id]);
 
-	console.log(product)
-
 	// Consultar si con el id ingresado se recaudo la información (en este caso el nombre) para determinar si existe o no el producto.
 	if(product.name) {
 		return (
