@@ -4,12 +4,12 @@ import { dbDAO } from "../config/connectToDb.js";
 import { sendEmail } from "../helpers/sendEmail.js";
 import { logger } from "../config/logs.js";
 import Cart from "../Class/Cart.js";
-import passport from "passport";
 
 const signupRouter = Router();
 
 signupRouter.post("/", async (req, res) => {
   const { url, method } = req;
+
   const { email, password, nombre, direccion, edad, numero, foto } = req.body;
   const user = await dbDAO.getUser(email);
 
@@ -17,7 +17,7 @@ signupRouter.post("/", async (req, res) => {
     logger.error(
       `El método y la ruta son: ${method} ${url}. Cuenta existente.`
     );
-    res.status(403).send("El usuario ya existe");
+    res.status(403).json({ result: "error" });
     return;
   }
 
@@ -63,7 +63,7 @@ signupRouter.post("/", async (req, res) => {
     `El método y la ruta son: ${method} ${url}. ${req.session.email}.`
   );
 
-  res.redirect("/");
+  res.json({ result: "success" });
 });
 
 export default signupRouter;

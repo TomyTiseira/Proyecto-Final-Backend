@@ -17,7 +17,7 @@ loginRouter.post("/", passport.authenticate("login"), async (req, res) => {
     `El método y la ruta son: ${method} ${url}. Email: ${req.session.email}.`
   );
 
-  res.redirect("/");
+  res.json({ result: "success" });
 });
 
 export default loginRouter;
