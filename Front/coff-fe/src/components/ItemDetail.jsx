@@ -9,13 +9,14 @@ export const ItemDetail = ({ data }) => {
 
 	// Añadir producto y setear el goToCart para que no vaya instantaneamente al carrito sino que muestre un mensaje antes.
 	const onAdd = async (quantity) => {
+		console.log(quantity)
 		setGoToCart(true);
 
-		const cartId = await fetch("/user/cartId")
+		const user = await fetch("/api/carrito")
 			.then(response => response.json())
 			.then(data => data)
 
-		if(cartId.result === "error") {
+		if(user.result === "error") {
 			loginEmail(null);
 			setGoToCart("error");
 		} else {
@@ -23,10 +24,10 @@ export const ItemDetail = ({ data }) => {
 			const requestOptions = {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({...data, quantity})
+				body: JSON.stringify({quantity})
 			};
 	
-			await fetch(`/api/carrito/${cartId}/productos/${data._id}`, requestOptions)
+			await fetch(`/api/carrito/${user.cartId}/productos/${data._id}`, requestOptions)
 				.then((response) => response.json())
 				.then((data) => data)
 				.catch((e) => console.error(e.message));

@@ -76,9 +76,9 @@ class MongoDAO {
     }
   };
 
-  addProductInCart = async (id, id_prod) => {
+  addProductInCart = async (id, id_prod, quantity) => {
     try {
-      await containerMongoDb.addProductInCart(id, id_prod);
+      await containerMongoDb.addProductInCart(id, id_prod, quantity);
     } catch (e) {
       logger.error(
         `Fallo al agregar un producto al carrito. Id del carrito: ${id}, id del producto: ${id_prod}.`

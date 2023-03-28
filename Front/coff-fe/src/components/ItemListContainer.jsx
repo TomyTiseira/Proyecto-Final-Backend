@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import ItemList from "./ItemList";
 import Title from "./Title";
 
-export const ItemListContainer = () => {
+const ItemListContainer = () => {
 	const [products, setProducts] = useState([]);
 
   useEffect(() => {

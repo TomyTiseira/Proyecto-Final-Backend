@@ -32,7 +32,7 @@ class ContainerMongoDb {
 
   deleteCart = async (id) => await Cart.deleteOne({ _id: id });
 
-  addProductInCart = async (id, id_prod) => {
+  addProductInCart = async (id, id_prod, quantity) => {
     const cart = await this.getCartById(id);
 
     const isInCart = () =>
@@ -43,7 +43,7 @@ class ContainerMongoDb {
         { _id: id },
         {
           $set: {
-            products: [...cart.products, { id: id_prod, quantity: 1 }],
+            products: [...cart.products, { id: id_prod, quantity }],
           },
         }
       );
@@ -54,7 +54,7 @@ class ContainerMongoDb {
       (product) => product.id === id_prod
     );
 
-    cart.products[indexProductUpdate].quantity++;
+    cart.products[indexProductUpdate].quantity += quantity;
 
     await Cart.updateOne(
       { _id: id },

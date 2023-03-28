@@ -10,7 +10,7 @@ import productRouter from "./routes/products.router.js";
 import signupRouter from "./routes/signup.router.js";
 import cluster from "cluster";
 import { cpus } from "os";
-import userRouter from "./routes/users.router.js";
+// import userRouter from "./routes/users.router.js";
 
 const app = express();
 app.use(express.json());
@@ -45,7 +45,7 @@ if (cluster.isPrimary && modo === "cluster") {
   app.use("/login", loginRouter);
   app.use("/signup", signupRouter);
   app.use("/logout", logoutRouter);
-  app.use("/user", userRouter);
+  // app.use("/user", userRouter);
 
   app.get("*", (req, res) => {
     const { url, method } = req;

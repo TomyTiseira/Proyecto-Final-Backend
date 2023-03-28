@@ -9,6 +9,31 @@ import { sendMessage } from "../helpers/sendMessage.js";
 
 const cartRouter = Router();
 
+cartRouter.get("/", async (req, res) => {
+  const { method, url } = req;
+
+  if (req.session.email) {
+    const email = req.session.email;
+
+    const user = await dbDAO.getUser(email);
+
+    if (!user) {
+      logger.error(
+        `El método y la ruta son: ${method} ${url}. Cuenta no se encuentra.`
+      );
+      res.status(403).json({ result: "error" });
+      return;
+    }
+
+    res.json(user);
+  } else {
+    logger.error(
+      `El método y la ruta son: ${method} ${url}. Acceso sin sesión.`
+    );
+    res.status(403).json({ result: "error" });
+  }
+});
+
 cartRouter.post("/", async (req, res) => {
   const { url, method } = req;
   if (req.session.email) {
@@ -78,6 +103,8 @@ cartRouter.get("/:id/productos", async (req, res) => {
 
     logger.info(`El método y la ruta son: ${method} ${url}.`);
 
+    console.log(cart.products);
+
     res.json(cart.products);
     return;
   }
@@ -93,6 +120,7 @@ cartRouter.post("/:id/productos/:id_prod", async (req, res) => {
   const { url, method } = req;
   if (req.session.email) {
     const { id, id_prod } = req.params;
+    const { quantity } = req.body;
 
     const cart = await dbDAO.getCartById(id);
     const product = await dbDAO.getProductById(id_prod);
@@ -105,7 +133,7 @@ cartRouter.post("/:id/productos/:id_prod", async (req, res) => {
       return;
     }
 
-    await dbDAO.addProductInCart(id, id_prod);
+    await dbDAO.addProductInCart(id, id_prod, quantity);
 
     logger.info(`El método y la ruta son: ${method} ${url}.`);
 
