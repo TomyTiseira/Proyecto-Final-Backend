@@ -62,6 +62,8 @@ class ArchivoDAO {
     );
   };
 
+  clearProducts = async () => {}; // Not implemented for segurity reasons.
+
   saveCart = async (cartToAdd) => {
     const carts = await this.getCarts();
 

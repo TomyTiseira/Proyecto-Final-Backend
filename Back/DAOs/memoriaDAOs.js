@@ -1,29 +1,35 @@
 import containerMemoria from "../controllers/containerMemoria.js";
 
 class MemoriaDAO {
-  saveProduct = (productToAdd) => containerMemoria.saveProduct(productToAdd);
+  saveProduct = async (productToAdd) =>
+    containerMemoria.saveProduct(productToAdd);
 
-  getProducts = () => containerMemoria.getProducts();
+  getProducts = async () => containerMemoria.getProducts();
 
-  getProductById = (id) => containerMemoria.getProductById(id);
+  getProductById = async (id) =>
+    containerMemoria.getProductById(id)
+      ? containerMemoria.getProductById(id)
+      : null;
 
-  updateProduct = (id, productToUpdate) =>
+  updateProduct = async (id, productToUpdate) =>
     containerMemoria.updateProduct(id, productToUpdate);
 
-  deleteProduct = (id) => containerMemoria.deleteProduct(id);
+  deleteProduct = async (id) => containerMemoria.deleteProduct(id);
 
-  saveCart = (cartToAdd) => containerMemoria.saveCart(cartToAdd);
+  clearProducts = async () => containerMemoria.clearProducts();
 
-  getCarts = () => containerMemoria.getCarts();
+  saveCart = async (cartToAdd) => containerMemoria.saveCart(cartToAdd);
 
-  getCartById = (id) => containerMemoria.getCartById(id);
+  getCarts = async () => containerMemoria.getCarts();
 
-  deleteCart = (id) => containerMemoria.deleteCart(id);
+  getCartById = async (id) => containerMemoria.getCartById(id);
 
-  addProductInCart = (id, id_prod) =>
+  deleteCart = async (id) => containerMemoria.deleteCart(id);
+
+  addProductInCart = async (id, id_prod) =>
     containerMemoria.addProductInCart(id, id_prod);
 
-  deleteProductInCart = (id, id_prod) =>
+  deleteProductInCart = async (id, id_prod) =>
     containerMemoria.deleteProductInCart(id, id_prod);
 }
 

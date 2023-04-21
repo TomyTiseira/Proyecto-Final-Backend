@@ -26,3 +26,4 @@ export const numberWhatsapp = process.env.NUMBER_WHATSAPP;
 export const numberAdministrator = process.env.NUMBER_ADMINISTRATOR;
 
 export const modo = process.env.MODO;
+export const nodeEnv = process.env.NODEENV;

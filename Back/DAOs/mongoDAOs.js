@@ -44,6 +44,8 @@ class MongoDAO {
     }
   };
 
+  clearProducts = async () => {}; // Not implemented for segurity reasons.
+
   saveCart = async (cartToAdd) => {
     try {
       return await containerMongoDb.saveCart(cartToAdd);

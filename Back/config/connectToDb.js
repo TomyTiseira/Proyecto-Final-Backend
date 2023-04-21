@@ -5,7 +5,7 @@ import MongoDAO from "../DAOs/mongoDAOs.js";
 import FirebaseDAO from "../DAOs/firebaseDAOs.js";
 import ArchivoDAO from "../DAOs/archivoDAOs.js";
 import MemoriaDAO from "../DAOs/memoriaDAOs.js";
-import { databaseUrl, databaseUrlFirebase } from "./enviroment.js";
+import { databaseUrl, databaseUrlFirebase, nodeEnv } from "./enviroment.js";
 import { logger } from "./logs.js";
 
 let isConnected;
@@ -22,21 +22,25 @@ const connectToFirebase = () => {
 const connectToDb = async (db) => {
   if (!isConnected) {
     try {
-      switch (db) {
-        case "mongo":
-          await mongoose.connect(databaseUrl);
-          dbDAO = new MongoDAO();
-          break;
-        case "firebase":
-          connectToFirebase();
-          dbDAO = new FirebaseDAO();
-          break;
-        case "archivo":
-          dbDAO = new ArchivoDAO();
-          break;
-        case "memoria":
-          dbDAO = new MemoriaDAO();
-          break;
+      if (nodeEnv === "test") {
+        dbDAO = new MemoriaDAO();
+      } else {
+        switch (db) {
+          case "mongo":
+            await mongoose.connect(databaseUrl);
+            dbDAO = new MongoDAO();
+            break;
+          case "firebase":
+            connectToFirebase();
+            dbDAO = new FirebaseDAO();
+            break;
+          case "archivo":
+            dbDAO = new ArchivoDAO();
+            break;
+          case "memoria":
+            dbDAO = new MemoriaDAO();
+            break;
+        }
       }
 
       isConnected = true;

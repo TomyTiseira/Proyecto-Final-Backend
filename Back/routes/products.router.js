@@ -10,9 +10,7 @@ productRouter.get("/", async (req, res) => {
   const { url, method } = req;
   const products = await dbDAO.getProducts();
 
-  // logger.info(`El método y la ruta son: ${method} ${url}.`);
-
-  console.log(products);
+  logger.info(`El método y la ruta son: ${method} ${url}.`);
 
   res.json(products);
 });

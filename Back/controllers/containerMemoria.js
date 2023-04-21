@@ -22,6 +22,8 @@ class ContainerMemoria {
     this.products = this.products.filter((product) => product.id !== id);
   };
 
+  clearProducts = () => (this.products = []);
+
   getCarts = () => this.carts;
 
   getCartById = (id) => this.carts.find((cart) => cart.id === id);

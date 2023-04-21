@@ -61,6 +61,8 @@ class FirebaseDAO {
     }
   };
 
+  clearProducts = async () => {}; // Not implemented for segurity reasons.
+
   saveCart = async (cartToAdd) => {
     try {
       const carts = await this.getCarts();
