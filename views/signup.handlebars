@@ -1,0 +1,33 @@
+<div class="container mt-3 py-2 bg-secondary bg-opacity-25">
+  <h2 style="color:blue">Registro de usuario</h2>
+  <form method="post" id="signup" action="/signup">
+    <div class="mb-3">
+      <label for="nombre" class="form-label">Ingrese su nombre: </label>
+      <input type="text" class="form-control" id="nombre" name="nombre" aria-describedby="nombre" required>
+    </div>
+    <div class="mb-3">
+      <label for="numero" class="form-label">Ingrese su numero: </label>
+      <input type="number" class="form-control" id="numero" name="numero" aria-describedby="numero" required>
+    </div>
+    <div class="mb-3">
+      <label for="foto" class="form-label">Ingrese su avatar (url): </label>
+      <input type="text" class="form-control" id="foto" name="foto" aria-describedby="foto" required>
+    </div>
+    <div class="mb-3">
+      <label for="emailSignup" class="form-label">Ingrese su email: </label>
+      <input type="email" class="form-control" id="emailSignup" name="email" aria-describedby="emailSignup" required>
+    </div>
+    <div class="mb-3">
+      <label for="passwordSignup" class="form-label">Ingrese su password: </label>
+      <input type="password" class="form-control" id="passwordSignup" name="password" aria-describedby="passwordSignup" required>
+    </div>
+    <div class="mb-3">
+      <label for="passwordDuplicado" class="form-label">Ingrese su password: </label>
+      <input type="password" class="form-control" id="passwordDuplicado" name="passwordDuplicado" aria-describedby="passwordDuplicado" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Registrate</button>
+  </form>
+
+  <a href="/login" class="btn btn-success mt-3">Logueate</a>
+
+</div>
