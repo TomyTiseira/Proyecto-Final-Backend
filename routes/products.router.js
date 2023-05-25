@@ -21,11 +21,12 @@ productRouter.get("/:id", async (req, res) => {
 
   const product = await dbDAO.getProductById(id);
 
+  // Validar la existencia del producto
   if (!product) {
     logger.error(
       `El método y la ruta son: ${method} /api/productos${url}. Producto no encontrado.`
     );
-    res.status(404).json({ error: "Producto no encontrado" });
+    res.render("error", { error: "Producto no encontrado" });
     return;
   }
 
@@ -41,9 +42,11 @@ productRouter.post("/", async (req, res) => {
       `El método y la ruta son: ${method} /api/productos${url}. Acceso no autorizado.`
     );
 
-    res.status(403).json({
-      error: -1,
-      description: `ruta /api/productos${url} método ${method} no autorizado.`,
+    // Redirigir a vista de error por cuenta no autorizada
+    res.render("error", {
+      error: "Cuenta no autorizada",
+      url: `api/productos${url}`,
+      metodo: method,
     });
     return;
   }
@@ -73,8 +76,11 @@ productRouter.put("/:id", async (req, res) => {
       `El método y la ruta son: ${method} /api/productos${url}. Acceso no autorizado.`
     );
 
-    res.status(403).json({
-      error: `ruta /api/productos${url} método ${method} no autorizado.`,
+    // Redirigir a vista de error por cuenta no autorizada
+    res.render("error", {
+      error: "Cuenta no autorizada",
+      url: `api/productos${url}`,
+      metodo: method,
     });
     return;
   }
@@ -87,7 +93,13 @@ productRouter.put("/:id", async (req, res) => {
     logger.error(
       `El método y la ruta son: ${method} /api/productos${url}. Producto no encontrado.`
     );
-    res.status(404).json({ error: "Producto no encontrado." });
+
+    // Redirigir a vista de error por cuenta no logueada
+    res.render("error", {
+      error: "Cuenta no autorizada",
+      url: `api/productos${url}`,
+      metodo: method,
+    });
     return;
   }
 
@@ -130,7 +142,12 @@ productRouter.delete("/:id", async (req, res) => {
       `El método y la ruta son: ${method} /api/productos${url}. Producto no encontrado.`
     );
 
-    res.status(404).json({ error: "Producto no encontrado." });
+    // Redirigir a vista de error por producto no encontrado
+    res.render("error", {
+      error: "Producto no encontrado",
+      url: `api/productos${url}`,
+      metodo: method,
+    });
     return;
   }
 

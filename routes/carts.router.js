@@ -9,6 +9,8 @@ const cartRouter = Router();
 
 cartRouter.post("/", async (req, res) => {
   const { url, method } = req;
+
+  // Validar que exista una sesión actual
   if (req.session.email) {
     const cartToAdd = new Cart();
 
@@ -24,24 +26,34 @@ cartRouter.post("/", async (req, res) => {
     `El método y la ruta son: ${method} /api/carrito${url}. Intento de acceso sin loggueo.`
   );
 
-  res.status(404).json({
+  // Redirigir a vista de error por cuenta no logueada
+  res.render("error", {
     error: "Cuenta no logueada",
+    url: `/api/carrito${url}`,
+    metodo: method,
   });
 });
 
 cartRouter.delete("/:id", async (req, res) => {
   const { url, method } = req;
+
+  // Validar que exista una sesión actual
   if (req.session.email) {
     const { id } = req.params;
 
     const cart = await dbDAO.getCartById(id);
 
+    // Validar que exista el carrito
     if (!cart) {
       logger.error(
         `El método y la ruta son: ${method} /api/carrito${url}. Carrito no encontrado.`
       );
 
-      res.status(404).json({ error: "Carrito no encontrado." });
+      res.render("error", {
+        error: "Carrito no encontrado",
+        url: `/api/carrito${url}`,
+        metodo: method,
+      });
       return;
     }
 
@@ -57,24 +69,35 @@ cartRouter.delete("/:id", async (req, res) => {
     `El método y la ruta son: ${method} /api/carrito${url}. Intento de acceso sin loggueo.`
   );
 
-  res.status(404).json({
+  // Redirigir a vista de error por cuenta no logueada
+  res.render("error", {
     error: "Cuenta no logueada",
+    url: `/api/carrito${url}`,
+    metodo: method,
   });
 });
 
 cartRouter.get("/:id/productos", async (req, res) => {
   const { url, method } = req;
+
+  // Validar que exista una sesión actual
   if (req.session.email) {
     const { id } = req.params;
 
     const cart = await dbDAO.getCartById(id);
 
+    // Validar que exista el carrito
     if (!cart) {
       logger.error(
         `El método y la ruta son: ${method} /api/carrito${url}. Carrito no encontrado.`
       );
 
-      res.status(404).json({ error: "Carrito no encontrado." });
+      // Redirigir a vista de error por carrito no encontrado
+      res.render("error", {
+        error: "Carrito no encontrado",
+        url: `/api/carrito${url}`,
+        metodo: method,
+      });
       return;
     }
 
@@ -88,13 +111,18 @@ cartRouter.get("/:id/productos", async (req, res) => {
     `El método y la ruta son: ${method} /api/carrito${url}. Intento de acceso sin loggueo.`
   );
 
-  res.status(404).json({
+  // Redirigir a vista de error por cuenta no logueada
+  res.render("error", {
     error: "Cuenta no logueada",
+    url: `/api/carrito${url}`,
+    metodo: method,
   });
 });
 
 cartRouter.post("/:id/productos/:id_prod", async (req, res) => {
   const { url, method } = req;
+
+  // Validar que exista una sesión actual
   if (req.session.email) {
     const { id, id_prod } = req.params;
     const { quantity } = req.body;
@@ -102,11 +130,18 @@ cartRouter.post("/:id/productos/:id_prod", async (req, res) => {
     const cart = await dbDAO.getCartById(id);
     const product = await dbDAO.getProductById(id_prod);
 
+    // Validar que exista el carrito y el producto
     if (!cart || !product) {
       logger.error(
         `El método y la ruta son: ${method} /api/carrito${url}. Carrito o producto no encontrado.`
       );
-      res.status(404).json({ error: "Carrito o producto no encontrado." });
+
+      // Redirigir a vista de error por carrito o producto no existentes
+      res.render("error", {
+        error: "Carrito o producto no encontrado",
+        url: `/api/carrito${url}`,
+        metodo: method,
+      });
       return;
     }
 
@@ -122,13 +157,18 @@ cartRouter.post("/:id/productos/:id_prod", async (req, res) => {
     `El método y la ruta son: ${method} $/api/carrito{url}. Intento de acceso sin loggueo.`
   );
 
-  res.status(404).json({
+  // Validar que exista una sesión actual
+  res.render("error", {
     error: "Cuenta no logueada",
+    url: `/api/carrito${url}`,
+    metodo: method,
   });
 });
 
 cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
   const { url, method } = req;
+
+  // Validar que exista una sesión actual
   if (req.session.email) {
     const { id, id_prod } = req.params;
 
@@ -139,7 +179,13 @@ cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
       logger.error(
         `El método y la ruta son: ${method} /api/carrito${url}. Carrito o producto no encontrado.`
       );
-      res.status(404).json({ error: "Carrito o producto no encontrado." });
+
+      // Redirigir a vista de error por carrito o producto no encontrado
+      res.render("error", {
+        error: "Carrito o producto no encontrado",
+        url: `/api/carrito${url}`,
+        metodo: method,
+      });
       return;
     }
 
@@ -152,9 +198,12 @@ cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
         `El método y la ruta son: ${method} /api/carrito${url}. Producto no se encuentra dentro del carrito.`
       );
 
-      res
-        .status(404)
-        .json({ error: "Producto no se encuentra dentro del carrito." });
+      // Redirigir a vista de error porque el producto no está dentro del carrito
+      res.render("error", {
+        error: "Producto no se encuentra dentro del carrito",
+        url: `/api/carrito${url}`,
+        metodo: method,
+      });
       return;
     }
 
@@ -170,19 +219,25 @@ cartRouter.delete("/:id/productos/:id_prod", async (req, res) => {
     `El método y la ruta son: ${method} /api/carrito${url}. Intento de acceso sin loggueo.`
   );
 
-  res.status(404).json({
+  // Validar que exista una sesión actual
+  res.render("error", {
     error: "Cuenta no logueada",
+    url: `/api/carrito${url}`,
+    metodo: method,
   });
 });
 
 cartRouter.get("/confirm", async (req, res) => {
   const { url, method } = req;
+
+  // Validar que exista una sesión actual
   if (req.session.email) {
     const emailUser = req.session.email;
 
     const user = await dbDAO.getUser(emailUser);
     const cart = await dbDAO.getCartById(user.cartId);
 
+    // Validar que haya al menos 1 producto para completar la compra
     if (cart.products.lenght > 0) {
       await createMessage(user, cart.products, req);
 
@@ -191,6 +246,7 @@ cartRouter.get("/confirm", async (req, res) => {
         email: emailUser,
       };
 
+      // Crear orden
       const ordenCreated = await createOrdenAndCleanCart(
         ordenToCreate,
         user.cartId
@@ -202,8 +258,10 @@ cartRouter.get("/confirm", async (req, res) => {
         `El método y la ruta son: ${method} /api/carrito${url}. Carrito vacío.`
       );
 
-      res.status(404).json({
-        error: "Carrito vacio",
+      res.render("error", {
+        error: "Carrito vacío",
+        url: `/api/carrito${url}`,
+        metodo: method,
       });
     }
 
@@ -214,8 +272,11 @@ cartRouter.get("/confirm", async (req, res) => {
     `El método y la ruta son: ${method} /api/carrito${url}. Intento de acceso sin loggueo.`
   );
 
-  res.status(404).json({
+  // Validar que exista una sesión actual
+  res.render("error", {
     error: "Cuenta no logueada",
+    url: `/api/carrito${url}`,
+    metodo: method,
   });
 });
 

@@ -19,11 +19,18 @@ signupRouter.post("/", async (req, res) => {
   const { nombre, numero, foto, email, password } = req.body;
   const user = await dbDAO.getUser(email);
 
+  // Validar que no exista la cuenta
   if (user) {
     logger.error(
       `El método y la ruta son: ${method} /signup${url}. Cuenta existente.`
     );
-    res.status(403).json({ result: "error" });
+
+    // Redirigir a la vista de error por cuenta ya creada
+    res.render("error", {
+      error: "Cuenta ya creada",
+      url: `/signup${url}`,
+      metodo: method,
+    });
     return;
   }
 
