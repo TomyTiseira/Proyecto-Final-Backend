@@ -23,3 +23,5 @@ export const numberAdministrator = process.env.NUMBER_ADMINISTRATOR;
 
 export const modo = process.env.MODO;
 export const nodeEnv = process.env.NODEENV;
+
+export const privateKey = process.env.PRIVATE_KEY;

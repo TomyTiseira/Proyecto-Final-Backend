@@ -15,6 +15,7 @@ import {
   numberTwilio,
   modo,
   nodeEnv,
+  privateKey,
 } from "../config/enviroment.js";
 
 const configurationRouter = Router();
@@ -37,6 +38,7 @@ configurationRouter.get("/", async (req, res) => {
     numberTwilio,
     modo,
     nodeEnv,
+    privateKey,
   };
 
   logger.info(`El método y la ruta son: ${method} ${url}.`);

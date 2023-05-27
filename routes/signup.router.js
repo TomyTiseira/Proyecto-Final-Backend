@@ -4,6 +4,7 @@ import { dbDAO } from "../config/connectToDb.js";
 import { sendEmail } from "../helpers/sendEmail.js";
 import { logger } from "../config/logs.js";
 import Cart from "../Class/Cart.js";
+import { generateToken } from "../config/tokenHandler.js";
 
 const signupRouter = Router();
 
@@ -48,6 +49,10 @@ signupRouter.post("/", async (req, res) => {
 
   await dbDAO.addUser(userToAdd);
 
+  // Generar token
+  const token = generateToken(userToAdd);
+  console.log({ token });
+
   const messageSendAdministrator = `
     Correo de cuenta: ${email}.
     Nombre de cuenta: ${nombre}.
@@ -70,7 +75,7 @@ signupRouter.post("/", async (req, res) => {
     `El método y la ruta son: ${method} /signup${url}. ${req.session.email}.`
   );
 
-  res.redirect("/login");
+  res.cookie("token", token).redirect("/login");
 });
 
 export default signupRouter;
